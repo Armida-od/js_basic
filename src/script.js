@@ -1,1 +1,68 @@
-console.log('Hey, this is my first JS program');
+//HW03 part 1
+//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення залежно від значення числа.
+//Якщо число ділиться на 3, то повідомлення має бути Fizz, якщо число ділиться на 5, то повідомлення має бути Buzz,
+//а якщо число ділиться і на 3, і на 5, то повідомлення має бути FizzBuzz. Наприклад, для числа 15 повідомлення має бути FizzBuzz.
+
+let number = parseInt(prompt("Enter your number"));
+
+switch (true) {
+    case isNaN(number):
+        console.log("You entered a strange number or not a number");
+        break;
+    case (number % 3 === 0 && number % 5 === 0):
+        console.log("FizzBuzz");
+        break;
+    case (number % 3 === 0):
+        console.log("Fizz");
+        break;
+    case (number % 5 === 0):
+        console.log("Buzz");
+        break;
+    default:
+        console.log("The number is not divisible by 3 or 5");
+}
+
+//HW03 part 2
+//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення, що вказує, чи є введений рік високосним.
+
+let year = parseInt(prompt("Enter your year"));
+
+if(!isNaN(year)){
+    (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)
+        ? console.log(year + " is a leap year.")
+        : console.log(year + " isn\'t a leap year.");
+}
+else{
+    console.log("You entered not correct year")
+}
+
+//HW03 part 3
+//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення у форматі Вам N рік / роки / років.
+// Залежно від числа N слово рік має змінюватися на років або року. Наприклад, Вам 1 рік, Вам 5 років, Вам 42 роки
+
+let userAge = parseInt(prompt("Введіть, будь ласка, свій вік"));
+let answer = userAge % 100;
+function notCorrectAnswer(){
+    console.log("Ви ввели не число, або ви ще не народились, або помилилися." +
+                "\nБудь ласка, введіть свій справжній вік.");
+}
+    if (isNaN(userAge) || userAge <= 0) {
+        notCorrectAnswer();
+    } else if (answer >= 11 && answer <= 14) {
+        console.log("Вам " + userAge + " років!");
+    } else {
+        answer = answer % 10;
+        if (answer >= 2 && answer <= 4) {
+            console.log("Вам " + userAge + " роки!");
+        } else if (answer === 0 || (answer >= 5 && answer <= 9)) {
+            console.log("Вам " + userAge + " років!");
+        } else {
+            console.log("Вам " + userAge + " рік!");
+        }
+    }
+
+
+
+
+
+
