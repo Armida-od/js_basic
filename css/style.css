@@ -1,0 +1,24 @@
+input{
+    width: 72px;
+    border: solid 3px #9E9E9E;
+    margin-left: 10px;
+    padding: 2px 6px;
+}
+button{
+    margin-right: 16px;
+}
+label{
+    font-size: 14px;
+    font-weight: bold;
+}
+.textResult{
+    font-weight: bold;
+    color: forestgreen;
+}
+hr{
+    margin: 32px 0 0;
+    width: 504px;
+}
+.newLine{
+    margin-left: 129px;
+}
