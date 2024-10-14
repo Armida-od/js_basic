@@ -1,4 +1,4 @@
-//HW03 part 1
+//HW03 part 1 ver 1
 //Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення залежно від значення числа.
 //Якщо число ділиться на 3, то повідомлення має бути Fizz, якщо число ділиться на 5, то повідомлення має бути Buzz,
 //а якщо число ділиться і на 3, і на 5, то повідомлення має бути FizzBuzz. Наприклад, для числа 15 повідомлення має бути FizzBuzz.
@@ -62,7 +62,12 @@ function notCorrectAnswer(){
     }
 
 
+//HW03 part 1 ver 2
+let number2 = parseInt(prompt("Enter your second number"));
 
-
-
-
+isNaN(number2)
+    ? console.log("You entered a strange number or not a number")
+    : (number % 3 === 0 && number % 5 === 0) ? console.log("FizzBuzz")
+    : (number % 3 === 0) ? console.log("Fizz")
+    : (number % 5 === 0) ? console.log("Buzz")
+    : console.log("The second number is not divisible by 3 or 5");
