@@ -77,3 +77,24 @@ isNaN(number3)
     ? console.log("You entered a strange number or not a number")
     : console.log(`${number3 % 3 === 0 ? "Fizz" : ""}${number3 % 5 === 0 ? "Buzz" : ""}` || "The second number is not divisible by 3 or 5");
 
+
+//Применение шаблонной строки (template strings)
+
+//1. Конкатенация
+let name = "Alex";
+let age = 25;
+let message = `Hello, my name is ${name} and I am ${age} years old.`;
+console.log(message);
+//2. Перенос на новую строку
+let message1 = `This is line 1
+And this is line 2`;
+console.log(message);
+//3. Выражение
+let a = 5;
+let b = 10;
+console.log(`The sum of ${a} and ${b} is ${a + b}.`);
+//4. Сложные выражения, условия
+let temperature = 30;
+let weather = `The temperature today is ${temperature > 25 ? "hot" : "cold"}.`;
+console.log(weather);
+
