@@ -64,10 +64,16 @@ function notCorrectAnswer(){
 
 //HW03 part 1 ver 2
 let number2 = parseInt(prompt("Enter your second number"));
-
 isNaN(number2)
     ? console.log("You entered a strange number or not a number")
     : (number % 3 === 0 && number % 5 === 0) ? console.log("FizzBuzz")
     : (number % 3 === 0) ? console.log("Fizz")
     : (number % 5 === 0) ? console.log("Buzz")
     : console.log("The second number is not divisible by 3 or 5");
+
+
+let number3 = parseInt(prompt("Enter your second number"));
+isNaN(number3)
+    ? console.log("You entered a strange number or not a number")
+    : console.log(`${number3 % 3 === 0 ? "Fizz" : ""}${number3 % 5 === 0 ? "Buzz" : ""}` || "The second number is not divisible by 3 or 5");
+
