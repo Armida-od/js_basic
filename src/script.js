@@ -1,100 +1,85 @@
-//HW03 part 1 ver 1
-//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення залежно від значення числа.
-//Якщо число ділиться на 3, то повідомлення має бути Fizz, якщо число ділиться на 5, то повідомлення має бути Buzz,
-//а якщо число ділиться і на 3, і на 5, то повідомлення має бути FizzBuzz. Наприклад, для числа 15 повідомлення має бути FizzBuzz.
+//HW04 task01
+//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення у форматі:
+// Число N є простим числом, якщо число N просте, та Число N не є простим числом, якщо число N складене.
 
-let number = parseInt(prompt("Enter your number"));
-
-switch (true) {
-    case isNaN(number):
-        console.log("You entered a strange number or not a number");
-        break;
-    case (number % 3 === 0 && number % 5 === 0):
-        console.log("FizzBuzz");
-        break;
-    case (number % 3 === 0):
-        console.log("Fizz");
-        break;
-    case (number % 5 === 0):
-        console.log("Buzz");
-        break;
-    default:
-        console.log("The number is not divisible by 3 or 5");
-}
-
-//HW03 part 2
-//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення, що вказує, чи є введений рік високосним.
-
-let year = parseInt(prompt("Enter your year"));
-
-if(!isNaN(year)){
-    (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)
-        ? console.log(year + " is a leap year.")
-        : console.log(year + " isn\'t a leap year.");
-}
-else{
-    console.log("You entered not correct year")
-}
-
-//HW03 part 3
-//Вам необхідно написати програму, яка приймає на вхід число і виводить у консоль повідомлення у форматі Вам N рік / роки / років.
-// Залежно від числа N слово рік має змінюватися на років або року. Наприклад, Вам 1 рік, Вам 5 років, Вам 42 роки
-
-let userAge = parseInt(prompt("Введіть, будь ласка, свій вік"));
-let answer = userAge % 100;
-function notCorrectAnswer(){
-    console.log("Ви ввели не число, або ви ще не народились, або помилилися." +
-                "\nБудь ласка, введіть свій справжній вік.");
-}
-    if (isNaN(userAge) || userAge <= 0) {
-        notCorrectAnswer();
-    } else if (answer >= 11 && answer <= 14) {
-        console.log("Вам " + userAge + " років!");
-    } else {
-        answer = answer % 10;
-        if (answer >= 2 && answer <= 4) {
-            console.log("Вам " + userAge + " роки!");
-        } else if (answer === 0 || (answer >= 5 && answer <= 9)) {
-            console.log("Вам " + userAge + " років!");
-        } else {
-            console.log("Вам " + userAge + " рік!");
+console.log("Первое задание: ")
+function isSimpleNumber(number) {
+    for (let i = 2; i < number; i++) {
+        if (number % i === 0) {
+            console.log(`${number} не является простым числом.`);
+            return;
         }
     }
+    if (number <= 1) {
+        console.log(`${number} не является простым числом.`);
+    } else {
+        console.log(`${number} является простым числом.`);
+    }
+}
+isSimpleNumber(11);
+console.log("___________________________\n");
 
+//HW04 task02
+//Вам необхідно написати програму, яка приймає на вхід число N і знаходить усі числа в діапазоні від 1 до N, які є досконалими числами.
 
-//HW03 part 1 ver 2
-let number2 = parseInt(prompt("Enter your second number"));
-isNaN(number2)
-    ? console.log("You entered a strange number or not a number")
-    : (number % 3 === 0 && number % 5 === 0) ? console.log("FizzBuzz")
-    : (number % 3 === 0) ? console.log("Fizz")
-    : (number % 5 === 0) ? console.log("Buzz")
-    : console.log("The second number is not divisible by 3 or 5");
+console.log("Второе задание: ")
+function isPerfectNumber(number) {
+    if (number <= 0) {
+        return false;
+    }
+    let sum = 0;
+    for (let i = 1; i < number; i++) {
+        if (number % i === 0) {
+            sum += i;
+        }
+    }
+    return sum === number;
+}
 
+function consolePerfectNumber(number) {
+    isPerfectNumber(number)
+        ? console.log(`${number} является совершенным числом.`)
+        : console.log(`${number} не является совершенным числом.`);
+}
+consolePerfectNumber(6);
+console.log("___________________________\n");
 
-let number3 = parseInt(prompt("Enter your second number"));
-isNaN(number3)
-    ? console.log("You entered a strange number or not a number")
-    : console.log(`${number3 % 3 === 0 ? "Fizz" : ""}${number3 % 5 === 0 ? "Buzz" : ""}` || "The second number is not divisible by 3 or 5");
+//HW04 task03 part01
+//Вам необхідно написати програму, яка приймає на вхід число, що буде висотою вершини вашої ялинки.
+// Уся ялинка має бути реалізована одним рядком:
 
+console.log("Третье задание \"половина дерева\": ")
+function holyTree(treeNumber){
+    console.log(`Ваше число: ${treeNumber}`);
 
-//Применение шаблонной строки (template strings)
+    let row = '';
+    for (let i = 1; i <= treeNumber; i++) {
+        row += i;
+        console.log(row);
+    }
+}
 
-//1. Конкатенация
-let name = "Alex";
-let age = 25;
-let message = `Hello, my name is ${name} and I am ${age} years old.`;
-console.log(message);
-//2. Перенос на новую строку
-let message1 = `This is line 1
-And this is line 2`;
-console.log(message);
-//3. Выражение
-let a = 5;
-let b = 10;
-console.log(`The sum of ${a} and ${b} is ${a + b}.`);
-//4. Сложные выражения, условия
-let temperature = 30;
-let weather = `The temperature today is ${temperature > 25 ? "hot" : "cold"}.`;
-console.log(weather);
+holyTree(5);
+console.log("___________________________\n");
 
+//HW04 task03 part02
+console.log("Третье задание \"целое дерево\": ")
+function doubleHolyTree(heightTree) {
+    console.log(`Ваше число: ${heightTree}`);
+
+    let i = 1;
+    while (i <= heightTree) {
+        let row = '';
+
+        for (let j = 1; j <= heightTree * 2 - 1; j++) {
+            if (j < heightTree - i + 1) {
+                row += ' ';
+            } else if (j <= heightTree + i - 1) {
+                row += j - (heightTree - i);
+            }
+        }
+        console.log(row);
+        i++;
+    }
+}
+doubleHolyTree(4);
