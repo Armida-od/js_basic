@@ -26,3 +26,19 @@ function isPalindrome(str = 'level'){
 isPalindrome();
 isPalindrome('Madam, I\'m Adam');
 isPalindrome('Hillel school');
+
+//HW05 task03:
+//Вам необхідно написати функцію findGCD(a, b), яка приймає на вхід два числа і повертає їхній НСД.
+console.log('_____________________\n');
+function findGCD(numberOne, numberTwo) {
+    console.log(`Ваши два числа: первое число = ${numberOne}, второе число = ${numberTwo}`);
+
+    for (; numberTwo !== 0;) {
+        let gcd = numberTwo;
+        numberTwo = numberOne % numberTwo;
+        numberOne = gcd;
+    }
+    return console.log(`Общий делитель для ваших чисел будет равен ${numberOne}`);
+}
+
+findGCD(20, 50);
