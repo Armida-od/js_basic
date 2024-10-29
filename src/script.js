@@ -1,33 +1,42 @@
-//HW06 task01
-//Вам необхідно написати функцію doubleLetter(str),
-//яка приймає на вхід рядок і повертає новий рядок, у якому кожен символ повторюється двічі hello ⇒ hheelllloo.
+//HW07 task01
+//Створіть функцію reverseArray, яка приймає масив і повертає новий масив, елементи якого розташовані у зворотному порядку.
 
-const doubleLetter = (str = 'hello') => str.replaceAll(/(.)/g, '$1$1');
-console.log(doubleLetter());
+const originalArray = [1, 2, 3, 4, 5];
 
-//HW06 task02
-//Вам необхідно написати функцію padString(str, length, symbol, toLeft), яка приймає на вхід рядок, число, що є довгим рядком,
-//який ми хочемо отримати в результаті та символ, яким доповниться рядок, якщо це буде потрібно, четвертим параметром є буремний «прапор»,
-//чи додавати символи зліва або справа(за замовчуванням).
-//Якщо 2 параметр менше, ніж довжина вихідного рядка, то виводимо вихідний рядок без змін. Приклад виклику: padString('Ivan', 6, '*') // 'Ivan**'.
+const reverseArray = (arr) => arr.reverse();
+const reversedArray = reverseArray(originalArray);
 
+console.log(reversedArray); // [5, 4, 3, 2, 1]
 
-function padString(str = 'Ivan', length = 6, symbol = '*', toLeft = false) {
-    if (length <= str.length)
-    return str;
-    return toLeft ? str.padStart(length, symbol) : str.padEnd(length, symbol);
+//HW07 task02
+//Створіть функцію uniqueValues, яка приймає два масиви і повертає новий масив, що містить тільки унікальні значення з обох масивів (без дублікатів).
+
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [3, 4, 5, 6, 7];
+
+function uniqueValues(arr1, arr2){
+    const newArr = arr1.concat(arr2);
+    return newArr.filter((value, index) => newArr.indexOf(value) === index);
 }
+const uniqueValuesArray = uniqueValues(array1, array2);
+console.log(uniqueValuesArray); // [1, 2, 3, 4, 5, 6, 7]
 
-console.log(padString());
-console.log(padString("Hillel", 10, '!', true));
+//HW07 task03
+//Напишіть функцію calculateAverageGrade, яка приймає на вхід масив об'єктів з інформацією про студентів (ім'я, вік, середній бал)
+//і повертає середній бал усіх студентів.
 
+const students = [
+    { name: "Alice", age: 20, grade: 4.5 },
+    { name: "Bob", age: 21, grade: 3.9 },
+    { name: "Charlie", age: 19, grade: 4.8 }
+];
 
-//HW06 task03
-//Вам необхідно написати функцію camelCase(str, separator), яка приймає на вхід рядок і перетворює його до формату camelCase.
+function calculateAverageGrade(arr){
+    const sum = arr.reduce((accum, value) => accum + value.grade, 0);
+    const average = sum / arr.length;
 
-const camelCase = (str = 'Hillel School', separator = ' ') =>
-    str.charAt(0).toLowerCase() + str.slice(1).replaceAll(separator, '');
+    return parseFloat(average.toFixed(1));
+    // Предпологаю, что для дальнейших вычислений, нам необходимо число, а не строка, поэтому использовала parseFloat
 
-console.log(camelCase());
-console.log(camelCase('Earth-Ukraine-Odessa-Deribasovskaya', '-'));
-console.log(camelCase('big.bang.theory', '.'));
+}
+console.log(calculateAverageGrade(students)); // 4.4
