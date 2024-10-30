@@ -1,42 +1,44 @@
-//HW07 task01
-//Створіть функцію reverseArray, яка приймає масив і повертає новий масив, елементи якого розташовані у зворотному порядку.
+//HW08 task01
+//Напишіть функцію capitalizeStrings, яка приймає на вхід масив рядків і повертає новий масив,
+//у якому кожен рядок має першу літеру у верхньому регістрі, а решту літер - у нижньому регістрі.
 
-const originalArray = [1, 2, 3, 4, 5];
+const words = ["apple", "banaNA", "kiWi", "ORANGE"];
 
-const reverseArray = (arr) => arr.reverse();
-const reversedArray = reverseArray(originalArray);
+capitalizeStrings = (arr) =>
+    arr.slice().map(element =>
+    element.toLowerCase()).map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1));
 
-console.log(reversedArray); // [5, 4, 3, 2, 1]
+console.log(capitalizeStrings(words)); // ["Apple", "Banana", "Kiwi", "Orange"]
 
-//HW07 task02
-//Створіть функцію uniqueValues, яка приймає два масиви і повертає новий масив, що містить тільки унікальні значення з обох масивів (без дублікатів).
+//HW08 task02
+//Напишіть функцію findCommonElements, яка приймає на вхід два масиви і повертає новий масив, що містить елементи, які є в обох вихідних масивах.
 
 const array1 = [1, 2, 3, 4, 5];
 const array2 = [3, 4, 5, 6, 7];
 
-function uniqueValues(arr1, arr2){
+function findCommonElements(arr1, arr2){
     const newArr = arr1.concat(arr2);
-    return newArr.filter((value, index) => newArr.indexOf(value) === index);
+    return newArr.filter((value, index) => newArr.indexOf(value) !== index);
 }
-const uniqueValuesArray = uniqueValues(array1, array2);
-console.log(uniqueValuesArray); // [1, 2, 3, 4, 5, 6, 7]
+console.log(findCommonElements(array1, array2)); // [3, 4, 5]
 
-//HW07 task03
-//Напишіть функцію calculateAverageGrade, яка приймає на вхід масив об'єктів з інформацією про студентів (ім'я, вік, середній бал)
-//і повертає середній бал усіх студентів.
+//HW08 task03
+//Напишіть функцію analyzeArray, яка приймає на вхід масив чисел і повертає об'єкт з такими властивостями:
+// sum - сума всіх елементів масиву
+// average - середнє значення елементів масиву
+// min - мінімальне значення в масиві
+// max - максимальне значення в масиві
 
-const students = [
-    { name: "Alice", age: 20, grade: 4.5 },
-    { name: "Bob", age: 21, grade: 3.9 },
-    { name: "Charlie", age: 19, grade: 4.8 }
-];
+const numbers = [1, 2, 3, 4, 5];
 
-function calculateAverageGrade(arr){
-    const sum = arr.reduce((accum, value) => accum + value.grade, 0);
+function analyzeArray(arr){
+    const sum = arr.reduce((acc, num) => acc + num, 0);
     const average = sum / arr.length;
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
 
-    return parseFloat(average.toFixed(1));
-    // Предпологаю, что для дальнейших вычислений, нам необходимо число, а не строка, поэтому использовала parseFloat
-
+    return {sum, average, min, max}
 }
-console.log(calculateAverageGrade(students)); // 4.4
+
+console.log(analyzeArray(numbers)); // { sum: 15, average: 3, min: 1, max: 5 }
