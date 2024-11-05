@@ -365,8 +365,8 @@ console.log(capitalizeStrings(words)); // ["Apple", "Banana", "Kiwi", "Orange"]
 //HW08 task02
 //Напишіть функцію findCommonElements, яка приймає на вхід два масиви і повертає новий масив, що містить елементи, які є в обох вихідних масивах.
 
-const array1 = [1, 2, 3, 4, 5];
-const array2 = [3, 4, 5, 6, 7];
+// const array1 = [1, 2, 3, 4, 5];
+// const array2 = [3, 4, 5, 6, 7];
 
 function findCommonElements(arr1, arr2){
     const newArr = arr1.concat(arr2);
