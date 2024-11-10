@@ -1,21 +1,7 @@
-//HW09 task01
-//Вам необхідно написати функцію, яка приймає на вхід масив чисел і повертає новий масив, що містить тільки ті числа, які є простими числами.
-
-function isSimpleNumber(number) {
-    if (number < 2) return false;
-    for (let i = 2; i < number; i++) {
-        if (number % i === 0) return false;
-    }
-    return true;
-}
-const arrNumber = [1, 0, 7, 11, 35, 20, 29, 50];
-
-arrSimpleNumbers = arr => arr.filter(isSimpleNumber);
-console.log(arrSimpleNumbers(arrNumber));
-
-//HW09 task02
-//Вам необхідно написати функцію, яка приймає на вхід масив об'єктів, де кожен об'єкт описує сповіщення та має поля source / text / date.
-//Вам необхідно перетворити цей масив на об'єкт, де ключем буде джерело сповіщення, а значенням - масив сповіщень із цього джерела.
+//HW10 task01 Вам необхідно використовувати масив нотифікацій з минулих занять.
+//До отриманого під час групування об'єкта notifications, вам необхідно додати ітератор,
+//щоб під час перебору в циклі for of ми отримували кожен елемент із вкладених списків об'єкта notifications таким чином,
+//немов працюємо з "плоским" масивом.
 
 const notifications = [
     { source: 'SMS', text: 'Air raid alarm', date: '01.11.2024' },
@@ -25,28 +11,75 @@ const notifications = [
     { source: 'SMS', text: 'Mobile phone account top-up', date: '05.11.2024' }
 ];
 
-groupNotifications = arr => Object.groupBy(arr, item => item.source);
-console.log(groupNotifications(notifications));
-
-//HW09 task03
-//Вам необхідно написати функцію, яка приймає на вхід масив і повністю повторює поведінку методу масиву group
-//Предыдущая задача без использования group
-
-const notes = [
-    { source: 'SMS', text: 'Air raid alarm', date: '01.11.2024' },
-    { source: 'Call', text: 'Population survey', date: '02.11.2024' },
-    { source: 'Telegram', text: 'Air raid alarm', date: '03.11.2024' },
-    { source: 'Telegram', text: 'Home payments', date: '04.11.2024' },
-    { source: 'SMS', text: 'Mobile phone account', date: '05.11.2024' }
-];
-
-function withoutGroupNotes(arr) {
-    return arr.reduce((acc, {source, ...rest}) => {
+function groupNotifications(arr) {
+    const grouped = arr.reduce((acc, { source, ...rest }) => {
         if (!acc[source]) {
             acc[source] = [];
         }
-        acc[source].push({source, ...rest});
+        acc[source].push({ source, ...rest });
         return acc;
     }, {});
+
+    grouped[Symbol.iterator] = function() {
+        let flatArray = Object.values(this).flat();
+        let index = 0;
+
+        return {
+            next() {
+                return index < flatArray.length
+                    ? { value: flatArray[index++], done: false }
+                    : { done: true };
+            }
+        };
+    };
+    return grouped;
 }
-console.log(withoutGroupNotes(notes));
+const groupedNotifications = groupNotifications(notifications);
+for (const notification of groupedNotifications) {
+    console.log(notification);
+}
+
+//HW10 task02 Вам необхідно реалізувати функцію memoize(fn), яка приймає вхід функцію і додає їй можливість кешування результатів виконання,
+//щоб уникнути повторних обчислень. Це означає, що в разі, коли функція викликається з однаковими параметрами,
+//то результат необхідно брати з кешу. (Тільки примітиви у параметрах та використовуйте Map)
+//HW10 task03
+//Встановіть обмеження на розмір кеша у вигляді числа N.
+//Якщо це значення перевищено, то вам необхідно перезаписати перше значення, потім друге і так далі.
+
+function memoize(fn, maxCacheSize = 100) {
+    const cache = new Map();
+    const queue = [];
+    const uniqueResults = new Set();
+
+    return function(...args) {
+        //Преобразование аргументов в строковое представление в формате JSON
+        const key = JSON.stringify(args);
+
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+        const result = fn(...args);
+
+        if (!uniqueResults.has(result)) {
+            // Добавление в кеш элемента
+            cache.set(key, result);
+            queue.push(key);
+            uniqueResults.add(result);
+
+            //Проверка розмера кеша и удаления самого старого кеша
+            if (queue.length > maxCacheSize) {
+                const oldestKey = queue.shift();
+                cache.delete(oldestKey);
+                uniqueResults.delete(cache.get(oldestKey));
+            }
+        }
+        return result;
+    };
+}
+//Применение функции memoize для вычисления функции calculateCircle
+function calculateCircle(radius) {
+    return Math.PI * radius * radius;
+}
+const memoizedCircle = memoize(calculateCircle);
+console.log(memoizedCircle(30));
+
