@@ -1,85 +1,72 @@
-//HW10 task01 Вам необхідно використовувати масив нотифікацій з минулих занять.
-//До отриманого під час групування об'єкта notifications, вам необхідно додати ітератор,
-//щоб під час перебору в циклі for of ми отримували кожен елемент із вкладених списків об'єкта notifications таким чином,
-//немов працюємо з "плоским" масивом.
+//HW11 task01
+//Вам необхідно написати функцію-декоратор logArguments(fn), яка приймає на вхід функцію і додає можливість логувати всі аргументи, передані у функцію-аргумент.
 
-const notifications = [
-    { source: 'SMS', text: 'Air raid alarm', date: '01.11.2024' },
-    { source: 'Call', text: 'Population survey', date: '02.11.2024' },
-    { source: 'Telegram', text: 'Air raid alarm', date: '03.11.2024' },
-    { source: 'Telegram', text: 'Payment of utility services', date: '04.11.2024' },
-    { source: 'SMS', text: 'Mobile phone account top-up', date: '05.11.2024' }
-];
-
-function groupNotifications(arr) {
-    const grouped = arr.reduce((acc, { source, ...rest }) => {
-        if (!acc[source]) {
-            acc[source] = [];
-        }
-        acc[source].push({ source, ...rest });
-        return acc;
-    }, {});
-
-    grouped[Symbol.iterator] = function() {
-        let flatArray = Object.values(this).flat();
-        let index = 0;
-
-        return {
-            next() {
-                return index < flatArray.length
-                    ? { value: flatArray[index++], done: false }
-                    : { done: true };
-            }
-        };
-    };
-    return grouped;
-}
-const groupedNotifications = groupNotifications(notifications);
-for (const notification of groupedNotifications) {
-    console.log(notification);
-}
-
-//HW10 task02 Вам необхідно реалізувати функцію memoize(fn), яка приймає вхід функцію і додає їй можливість кешування результатів виконання,
-//щоб уникнути повторних обчислень. Це означає, що в разі, коли функція викликається з однаковими параметрами,
-//то результат необхідно брати з кешу. (Тільки примітиви у параметрах та використовуйте Map)
-//HW10 task03
-//Встановіть обмеження на розмір кеша у вигляді числа N.
-//Якщо це значення перевищено, то вам необхідно перезаписати перше значення, потім друге і так далі.
-
-function memoize(fn, maxCacheSize = 100) {
-    const cache = new Map();
-    const queue = [];
-    const uniqueResults = new Set();
-
+function logArguments(fn){
     return function(...args) {
-        //Преобразование аргументов в строковое представление в формате JSON
-        const key = JSON.stringify(args);
-
-        if (cache.has(key)) {
-            return cache.get(key);
-        }
-        const result = fn(...args);
-
-        if (!uniqueResults.has(result)) {
-            // Добавление в кеш элемента
-            cache.set(key, result);
-            queue.push(key);
-            uniqueResults.add(result);
-
-            //Проверка розмера кеша и удаления самого старого кеша
-            if (queue.length > maxCacheSize) {
-                const oldestKey = queue.shift();
-                cache.delete(oldestKey);
-                uniqueResults.delete(cache.get(oldestKey));
-            }
-        }
-        return result;
+        console.log(`Функция ${fn.name} принимает параметры:`, args);
+        return fn(...args);
     };
 }
-//Применение функции memoize для вычисления функции calculateCircle
-function calculateCircle(radius) {
-    return Math.PI * radius * radius;
-}
-const memoizedCircle = memoize(calculateCircle);
-console.log(memoizedCircle(30));
 
+//Применение функции logArguments для вычисления функции calculateVolumeParallelepiped
+const calculateVolumeParallelepiped = (height, width, length) => height * width * length;
+
+const loggedCalculateCircle = logArguments(calculateVolumeParallelepiped);
+loggedCalculateCircle(20, 30, 50);
+
+
+//HW11 task02
+//Вам необхідно написати функцію-декоратор validate(fn, validator), яка приймає на вхід функцію і додає можливість перевіряти аргументи,
+//передані у функцію fn, на відповідність заданому validator. Якщо аргументи не проходять перевірку, то декоратор має викидати виняток.
+
+function validate(fn) {
+    return function(...args) {
+        if (!args.every(arg => typeof arg === 'number')) {
+            throw new Error('Аргументы не прошли валидацию, так как не все являются числами');
+        }
+        return fn(...args);
+    };
+}
+//Применение валидации функции calculateVolumeCylinder
+const calculateVolumeCylinder = (radius, height) => Math.PI * Math.pow(radius, 2) * height;
+
+const validatedArgs = validate(calculateVolumeCylinder);
+
+try {
+    console.log(validatedArgs(2, 3));
+    console.log(validatedArgs('15', '2'));
+} catch (error) {
+    console.error(error.message);
+}
+
+//HW11 task03
+//Вам необхідно написати функцію-декоратор retry(fn, maxAttempts), яка приймає на вхід функцію
+//і додає можливість викликати функцію з максимальною кількістю спроб у разі помилки та повертає результат останнього виклику.
+function retry(fn, maxAttempts) {
+    return function(...args) {
+        for (let item = 1; item <= maxAttempts; item++) {
+            try {
+                const result = fn(...args);
+                console.log(`Число ${result} находится в диапазоне от 1 до 10`);
+                return result;
+            } catch (error) {
+                console.error(`Попытка ${item} не удалась:`, error);
+            }
+        }
+        throw new Error(`Исчерпаны все попытки ${maxAttempts} `);
+    };
+}
+
+function checkNumber(num) {
+    if (num < 1 || num > 10) {
+        throw new Error(`Число ${num} не находится в диапазоне от 1 до 10`);
+    }
+    return num;
+}
+
+const retryCheckNumber = retry(checkNumber, 3);
+
+retryCheckNumber(5);
+retryCheckNumber(51);
+
+//Для себя!!! '^' указывает на строку, где мы явно генерируем исключение, а не на те строки, где происходили предыдущие ошибки.
