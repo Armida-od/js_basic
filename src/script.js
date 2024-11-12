@@ -1,4 +1,4 @@
-//HW11 task01
+console.log("HW11 task01")
 //Вам необхідно написати функцію-декоратор logArguments(fn), яка приймає на вхід функцію і додає можливість логувати всі аргументи, передані у функцію-аргумент.
 
 function logArguments(fn){
@@ -15,31 +15,34 @@ const loggedCalculateCircle = logArguments(calculateVolumeParallelepiped);
 loggedCalculateCircle(20, 30, 50);
 
 
-//HW11 task02
+console.log("--------------  \nHW11 task02")
 //Вам необхідно написати функцію-декоратор validate(fn, validator), яка приймає на вхід функцію і додає можливість перевіряти аргументи,
 //передані у функцію fn, на відповідність заданому validator. Якщо аргументи не проходять перевірку, то декоратор має викидати виняток.
 
-function validate(fn) {
+function validate(fn, validator) {
     return function(...args) {
-        if (!args.every(arg => typeof arg === 'number')) {
-            throw new Error('Аргументы не прошли валидацию, так как не все являются числами');
+        if (!validator(...args)) {
+            throw new Error('Аргументы не являются числами.');
         }
         return fn(...args);
     };
 }
+
+const isAllNumbers = (...args) => args.every(arg => typeof arg === 'number');
+
 //Применение валидации функции calculateVolumeCylinder
 const calculateVolumeCylinder = (radius, height) => Math.PI * Math.pow(radius, 2) * height;
 
-const validatedArgs = validate(calculateVolumeCylinder);
+const validated = validate(calculateVolumeCylinder, isAllNumbers);
 
 try {
-    console.log(validatedArgs(2, 3));
-    console.log(validatedArgs('15', '2'));
+    console.log(validated(2, 3));
+    console.log(validated('15', '2'));
 } catch (error) {
     console.error(error.message);
 }
 
-//HW11 task03
+console.log("-------------- \nHW11 task03")
 //Вам необхідно написати функцію-декоратор retry(fn, maxAttempts), яка приймає на вхід функцію
 //і додає можливість викликати функцію з максимальною кількістю спроб у разі помилки та повертає результат останнього виклику.
 function retry(fn, maxAttempts) {
