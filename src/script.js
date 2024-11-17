@@ -1,63 +1,71 @@
-console.log("HW12 task01")
-//Вам необхідно написати функцію summarize(num), яка приймає на вхід число і повертає функцію, яка під час виклику додає це число до аргументу
-//і повертає результат. Якщо аргумент не передано, то додається одиниця.
-//Наприклад, якщо функція викликається з аргументом 5, то функція, що повертається,
-//повинна при виклику з аргументом 3 повернути 8 (тому що 3 + 5 = 8) або 6, якщо аргумент не буде передано.
+console.log("HW13 task03")
+//Напишіть функцію, яка рекурсивно обчислює n-те число Фібоначчі.
+//Числа Фібоначчі визначаються як послідовність, у якій кожне число дорівнює сумі двох попередніх чисел (наприклад, 0, 1, 1, 2, 3, 5, 8 і так далі).
+//Використовуйте рекурсію для обчислення чисел Фібоначчі.
+function fibonacci(n) {
+    if (n <= 0) {
+        return 0;
+    } else if (n === 1) {
+        return 1;
+    }
 
-function Summarizer(num) {
-    this.num = num;
-    this.sum = function(item = 1) {
-        return this.num + item;
-    };
+    // Рекурсия:
+    return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-const result = new Summarizer(5);
-console.log(result.sum(3));
-console.log(result.sum());
+console.log(fibonacci(10))
 
-console.log("--------------  \nHW11 task02")
-//Вам необхідно написати функцію counter(startValue, step), яка приймає на вхід два параметри - стартове значення лічильника і його крок.
-//Функція повертає нову функцію, яка при кожному виклику збільшує лічильник на значення і повертає його поточне значення.
-//Лічильник повинен мати методи increment, decrement і reset, які збільшують або зменшують значення на step і скидають значення до стартового, відповідно.
+console.log("--------------  \nHW13 task02")
+//Числовий паліндром. Візьмемо будь-яке натуральне число і складемо його зі зворотним числом, тобто записаним тими самими цифрами, але у зворотному порядку.
+//Проробимо ту саму дію з сумою, що вийшла, і будемо повторювати її доти, доки не утвориться паліндром. Іноді достатньо зробити всього один крок (наприклад, 312 + 213 = 525), але, як правило, потрібно не менше двох. Скажімо, число 96 породжує паліндром 4884 тільки на четвертому кроці....
+//Вам потрібно написати функцію, яка повертатиме об'єкт, де буде властивість result і це буде паліндром, і властивість steps — це число викликів до знаходження паліндрома.
+//Для того, щоб перевірити себе використовуйте число 196. Це так зване Lychrel number — число яке немає поліндрому
 
-function counter(startValue, step){
-    return {
-        startValue,
-        step,
-        increment(){
-            return startValue += step;
-        },
-        decrement(){
-            return startValue -= step;
-        },
-        reset(){
-            return startValue;
+function reverseNumber(num) {
+    return Number(num.toString().split('').reverse().join(''));
+}
+
+function isPalindrome(num) {
+    return num.toString() === num.toString().split('').reverse().join('');
+}
+
+function palindrome(num, step) {
+    let steps = 0;
+    while (steps < step) {
+        num += reverseNumber(num);
+        steps++;
+        if (isPalindrome(num)) {
+            return `Результат паліндрому - ${num}, рухів було - ${steps}`;
         }
     }
+    return 'Паліндром не знайдено';
 }
 
-const generalCounter = counter(15, 5);
+// Приклад використання:
+const result = palindrome(22, 100);
+console.log(result); // Виведе null або об'єкт з результатом та кількістю кроків
 
-console.log(`Початкове значення лічильника: ${generalCounter.startValue}`);
-console.log(`Лічильник збільшився на ${generalCounter.step} та став: ${generalCounter.increment()}`);
-console.log(`Потім лічильник зменшився на ${generalCounter.step} та став: ${generalCounter.decrement()}`);
-console.log(`Після скидання лічильника його значення повернулось до початкового: ${generalCounter.reset()}`);
+console.log("-------------- \nHW13 task03")
+//Напишіть функцію, яка приймає масив унікальних елементів і генерує всі можливі перестановки цього масиву.
+//Використовуйте рекурсію для знаходження всіх перестановок.
+//Наприклад, якщо вхідний масив [1, 2, 3], функція має повернути масив, що містить [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2] і [3, 2, 1].
 
-console.log("-------------- \nHW11 task03")
-//Вам необхідно написати функцію sequence(fn, fn), яка приймає на вхід дві або більше функції й повертає нову функцію, яка викликає їх послідовно з результатом попереднього виклику. Результат останньої функції має бути повернутий новою функцією.
-//Кожна функція повинна мати доступ до результату попередньої функції через замикання.
+function permutationArray(arr){
+    const perArr = [];
+    if (arr.length === 1) {
+        return [arr];
+    }
+    for (let i = 0; i < arr.length; i++) {
+        const current = arr[i];
+        const newPerArr = [...arr.slice(0, i), ...arr.slice(i + 1)];
+        const permutations = permutationArray(newPerArr);
 
-// 1. sequence(...fns) принимает любое количество функций и возвращает новую функцию.
-// 2. Новая функция вызывает входящие функции последовательно.
-// 3. Результат каждой функции будет передаваться как аргумент следующий функции (через замыкание) и уже результат последней функции будет результатом выполнения нашей новой созданной функции.
-
-function sequence(...fns) {
-    return (...args) => fns.reduce((result, fn) => fn(result), ...args);
+        for (let permutation of permutations) {
+            perArr.push([current, ...permutation]);
+        }
+    }
+    return perArr;
 }
 
-const yearlySalary = (salary) => salary * 12;
-const salaryCoefficient = (salary) => salary * 3;
-const tax = (salary) => salary - ((salary * 5)/100);
-
-const totalSalary = sequence(yearlySalary, salaryCoefficient, tax);
-console.log(`Total salary is ${totalSalary(1000)}`);
+const arr = [1, 2, 3];
+console.log(permutationArray(arr))
