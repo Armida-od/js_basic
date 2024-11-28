@@ -1,0 +1,16 @@
+@mixin flex($jc, $ai, $g, $fd){
+  display: flex;
+  flex-direction: $fd;
+  justify-content: $jc;
+  align-items: $ai;
+  gap: $g
+}
+.counter{
+  @include flex(center, center, 10px, column);
+  span{
+    font-size: 24px;
+  }
+  button{
+    font-size: 14px;
+  }
+}
