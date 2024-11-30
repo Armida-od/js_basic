@@ -11,7 +11,7 @@ function sumArrayPromise(numbers) {
     });
 }
 
-//sumArrayPromise([1, 2, 3, 4, 5]).then(console.log);
+sumArrayPromise([1, 2, 3, 4, 5]).then(console.log);
 
 //HW18 task2
 //Створіть функцію concurrentPromises, яка приймає масив промісів і максимальну кількість промісів, що виконуються одночасно.
